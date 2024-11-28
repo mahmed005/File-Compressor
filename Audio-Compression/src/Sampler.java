@@ -1,10 +1,9 @@
 import java.io.File;
 import java.io.IOException;
 import javax.sound.sampled.*;
-import java.util.HashMap;
 
 public class Sampler{
-    public static void main(String[] args) throws UnsupportedAudioFileException, IOException {
+    public int[] covertToSamples() throws UnsupportedAudioFileException, IOException {
         File file = new File("example.wav");
 
         AudioInputStream audio = AudioSystem.getAudioInputStream(file);
@@ -35,15 +34,6 @@ public class Sampler{
             samples[index++] = sample;
         }
 
-        HashMap<Integer, Integer> map = new HashMap<Integer , Integer>();
-
-        for (int sample : samples) {
-            map.put(sample, map.getOrDefault(sample, 1) + 1);
-        }
-
-        System.out.println("Sample frequencies:");
-        for (int sample : map.keySet()) {
-            System.out.println("Sample: " + sample + ", Count: " + map.get(sample));
-        }
+        return samples;
     }
 }
