@@ -9,10 +9,34 @@ public class Sampler{
 
         AudioInputStream audio = AudioSystem.getAudioInputStream(file);
         AudioFormat format = audio.getFormat();
-        int sampleSize = format.getSampleSizeInBits();
-        sampleSize /= 8;
+        int sampleSize = format.getSampleSizeInBits() / 8;
         long totalFrames = audio.getFrameLength();
 
-        byte[] audioBytes = new byte[(int) sampleSize * totalFrames * format.getFrameSize()]
+        byte[] audioBytes = new byte[(int) totalFrames * format.getFrameSize()];
+        audio.read(audioBytes);
+
+        int totalChannels = format.getChannels();
+        int []samples = new int[(int) totalFrames * totalChannels];
+        boolean isBigEndian = format.isBigEndian();
+
+        int index = 0;
+        for(int i = 0; i < audioBytes.length; i += sampleSize) {
+            int sample = 0;
+
+            if(sampleSize == 2) {
+                if(isBigEndian)
+                sample = (audioBytes[i] << 8) | (audioBytes[i+1] & 0xFF);
+                else
+                sample = (audioBytes[i+1] << 8) | (audioBytes[i] & 0xFF); 
+            } else if(sampleSize == 1) {
+                sample = audioBytes[i];
+            }
+            
+            samples[index++] = sample;
+        }
+
+        for(int i = 0 ; i < samples.length; i++) {
+            System.out.println("The sample at index " + i + " is: " + samples[i]);
+        }
     }
 }
