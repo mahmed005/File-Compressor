@@ -1,7 +1,7 @@
 import java.io.File;
 import java.io.IOException;
-
 import javax.sound.sampled.*;
+import java.util.HashMap;
 
 public class Sampler{
     public static void main(String[] args) throws UnsupportedAudioFileException, IOException {
@@ -35,8 +35,15 @@ public class Sampler{
             samples[index++] = sample;
         }
 
-        for(int i = 0 ; i < samples.length; i++) {
-            System.out.println("The sample at index " + i + " is: " + samples[i]);
+        HashMap<Integer, Integer> map = new HashMap<Integer , Integer>();
+
+        for (int sample : samples) {
+            map.put(sample, map.getOrDefault(sample, 1) + 1);
+        }
+
+        System.out.println("Sample frequencies:");
+        for (int sample : map.keySet()) {
+            System.out.println("Sample: " + sample + ", Count: " + map.get(sample));
         }
     }
 }
