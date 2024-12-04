@@ -1,55 +1,122 @@
-class Node<T>{
-    public T key;
-    public int frequency;
-    public Node<T> next;
+class ItemNode {
+    private int key;
+    private int frequency;
+
+    public ItemNode(int key) {
+        this.key = key;
+        frequency = 1;
+    }
+
+    public int getKey() {
+        return key;
+    }
+
+    public void increaseFrequency() {
+        frequency++;
+    }
+}
+
+class LinkedList{
+    public Node head;
+    public int count;
+
+    public LinkedList() {
+        head = null;
+        count = 0;
+    }
+}
+
+
+class Node{
+    private ItemNode item;
+    public Node next;
+
+    public Node(int key) {
+        item = new ItemNode(key);
+        next = null;
+    }
+
+    public int getKey() {
+        return item.getKey();
+    }
+
+    public ItemNode getItem() {
+        return item;
+    }
+
+    public void increaseFrequency() {
+        item.increaseFrequency();
+    }
 };
 
 class Hashmap{
-    private Node<T> A[1000];
+    private int size;
+    private LinkedList array[];
 
     public Hashmap() {
-        for(int i = 0; i < 1000; i++) {
-            A = new Node[1000];
-            A[i] = NULL;
+        array = new LinkedList[1000];
+        size = 1000;
+        for(int i = 0; i < size; i++) {
+            array[i] = new LinkedList();
         }
     }
 
-    public void insert(T key) {
-        int index = key%1000;
-        if(!A[index]) {
-            A[index] = new Node<T>;
-            A[index].key = key;
-            A[index].frequency = 1;
-            A[index].next = NULL;
+    public Hashmap(int size) {
+        this.size = size;
+        array = new LinkedList[size];
+        for(int i = 0; i < size; i++) {
+            array[i] = new LinkedList();
+        }
+    }
+
+    public void insert(int key) {
+        int index = key % size;
+        Node p = search(key , index);
+        if(p == null) {
+            Node t = new Node(key);
+            array[index].head = t;
+            array[index].count++;
         } else {
-            Node *p = A[index];
-            Node *q = NULL;
-            while(p && p->data < key) {
-                q = p;
-                p = p->next;
+            if(p.getKey() == key) {
+                p.increaseFrequency();
             }
-            if(!q) {
-                t->next = p;
-                A[index] = t;
-            } else {
-                q->next = t;
-                t->next = p;
+            else {
+                Node t = new Node(key);
+                p.next = t;
+                array[index].count++;
             }
         }
     }
 
-    Node *Search(int key) {
-        int index = key%10;
-        Node *p = A[index];
-        while(p && p->data < key){
-            p = p->next;
+    private Node search(int key, int index) {
+        Node p = array[index].head;
+        while(p != null && p.next != null) {
+            if(p.getKey() == key)
+                break;
+            p = p.next;
         }
-        if(p) {
-            if(p->data == key) {
-                return p;
+        return p;
+    }
+
+    private int getTotalNodes() {
+        int count = 0;
+        for(int i = 0; i < size; i++) {
+            count += array[i].count;
+        }
+        return count;
+    }
+
+    public minHeap makMinHeap() {
+        int count = getTotalNodes();
+        minHeap heap = new minHeap(count);
+        for(int i = 0; i < size; i++) {
+            Node p = array[i].head;
+            while(p != null) {
+                ItemNode item = p.getItem();
+                heap.add(item);
+                p = p.next;
             }
-            return NULL;
-        } 
-        return NULL;
+        }
+        return heap;
     }
 };
