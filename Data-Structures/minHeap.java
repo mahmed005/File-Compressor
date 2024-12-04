@@ -1,5 +1,4 @@
 public class minHeap{
-
     private int capacity;
     private int size;
     private int [] heap;
