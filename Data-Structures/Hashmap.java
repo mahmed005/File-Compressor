@@ -10,9 +10,13 @@ class ItemNode {
     public int getKey() {
         return key;
     }
-
+    
     public void increaseFrequency() {
         frequency++;
+    }
+
+    public int getFrequency() {
+        return frequency;
     }
 }
 
@@ -106,7 +110,7 @@ class Hashmap{
         return count;
     }
 
-    public minHeap makMinHeap() {
+    public minHeap makeMinHeap() {
         int count = getTotalNodes();
         minHeap heap = new minHeap(count);
         for(int i = 0; i < size; i++) {
