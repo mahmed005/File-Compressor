@@ -53,11 +53,11 @@ class Node{
     }
 };
 
-class Hashmap{
+class HashMap{
     private int size;
     private LinkedList array[];
 
-    public Hashmap() {
+    public HashMap() {
         array = new LinkedList[1000];
         size = 1000;
         for(int i = 0; i < size; i++) {
@@ -65,7 +65,7 @@ class Hashmap{
         }
     }
 
-    public Hashmap(int size) {
+    public HashMap(int size) {
         this.size = size;
         array = new LinkedList[size];
         for(int i = 0; i < size; i++) {
@@ -117,7 +117,8 @@ class Hashmap{
             Node p = array[i].head;
             while(p != null) {
                 ItemNode item = p.getItem();
-                heap.add(item);
+                huffmanNode node = new huffmanNode(item);
+                heap.add(node);
                 p = p.next;
             }
         }

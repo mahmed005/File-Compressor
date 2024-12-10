@@ -1,38 +1,38 @@
 public class minHeap{
     private int capacity;
     private int size;
-    private int [] heap;
+    private huffmanNode [] heap;
 
     public minHeap(int n){
-        heap = new int[n];
+        heap = new huffmanNode[n];
         capacity=n;
         size=0;
     }
 
     private void swap(int index1,int index2){
-        int temp=heap[index1];
+        huffmanNode temp=heap[index1];
         heap[index1]=heap[index2];
         heap[index2]=temp;
     }
 
-    public void add(int value){
+    public void add(huffmanNode n){
         if(size==capacity) throw new IllegalStateException("The Heap is full");
-        heap[size]=value;
+        heap[size]=n;
         size++;
         heapifyUp();
     }
 
     private void heapifyUp(){
         int index=size-1;
-        while(hasParent(index) && heap[getParentIndex(index)]>heap[index]){
+        while(hasParent(index) && heap[getParentIndex(index)].getItem().getFrequency()>heap[index].getItem().getFrequency()){
             swap(index, getParentIndex(index));
             index=getParentIndex(index);
         }
     }
 
-    public int extractMin(){
+    public huffmanNode extractMin(){
         if(size==0) throw new IllegalStateException("The Heap is empty");
-        int min=heap[0];
+        huffmanNode min=heap[0];
         heap[0]=heap[size-1];
         size--;
         heapifyDown();
@@ -43,11 +43,11 @@ public class minHeap{
         int index=0; 
         while(hasLeftChild(index)){ 
             int smallerChildIndex=getLeftIndex(index);
-            if(hasRightChild(index) && heap[getRightIndex(index)]<heap[smallerChildIndex]){
+            if(hasRightChild(index) && heap[getRightIndex(index)].getItem().getFrequency()<heap[smallerChildIndex].getItem().getFrequency()){
                 smallerChildIndex=getRightIndex(index);
             }
 
-            if(heap[index]<=heap[smallerChildIndex])
+            if(heap[index].getItem().getFrequency()<=heap[smallerChildIndex].getItem().getFrequency())
                 break;
             else{
                 swap(index, smallerChildIndex);
@@ -56,7 +56,11 @@ public class minHeap{
         }
     }
 
-    private int getMin(){
+    public boolean isEmpty(){
+        return size==0;
+    }
+
+    private huffmanNode getMin(){
         if(size==0) throw new IllegalAccessError("The Heap is empty");
         return heap[0];
     }
@@ -84,19 +88,4 @@ public class minHeap{
     private int getRightIndex(int index) {
         return 2*index+2;
     }
-
-    public static void main(String[] args) {
-        minHeap minHeap = new minHeap(10);
-    
-        minHeap.add(10);
-        minHeap.add(5);
-        minHeap.add(3);
-        minHeap.add(2);
-    
-        System.out.println("Min element: " + minHeap.getMin()); // Should print 2
-        System.out.println("Extracted Min: " + minHeap.extractMin()); // Should print 2
-        System.out.println("Extracted Min: " + minHeap.extractMin()); // Should print 3
-    }
-    
-
 }
