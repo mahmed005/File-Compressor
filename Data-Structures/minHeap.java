@@ -24,7 +24,7 @@ public class minHeap{
 
     private void heapifyUp(){
         int index=size-1;
-        while(hasParent(index) && heap[getParentIndex(index)].getItem().getFrequency()>heap[index].getItem().getFrequency()){
+        while(hasParent(index) && heap[getParentIndex(index)].getItem().getValue()>heap[index].getItem().getValue()){
             swap(index, getParentIndex(index));
             index=getParentIndex(index);
         }
@@ -43,11 +43,11 @@ public class minHeap{
         int index=0; 
         while(hasLeftChild(index)){ 
             int smallerChildIndex=getLeftIndex(index);
-            if(hasRightChild(index) && heap[getRightIndex(index)].getItem().getFrequency()<heap[smallerChildIndex].getItem().getFrequency()){
+            if(hasRightChild(index) && heap[getRightIndex(index)].getItem().getValue()<heap[smallerChildIndex].getItem().getValue()){
                 smallerChildIndex=getRightIndex(index);
             }
 
-            if(heap[index].getItem().getFrequency()<=heap[smallerChildIndex].getItem().getFrequency())
+            if(heap[index].getItem().getValue()<=heap[smallerChildIndex].getItem().getValue())
                 break;
             else{
                 swap(index, smallerChildIndex);
@@ -63,6 +63,10 @@ public class minHeap{
     private huffmanNode getMin(){
         if(size==0) throw new IllegalAccessError("The Heap is empty");
         return heap[0];
+    }
+
+    public int getSize(){
+        return size;
     }
 
     private boolean hasParent(int index){

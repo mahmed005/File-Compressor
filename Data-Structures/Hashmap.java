@@ -1,27 +1,37 @@
-class ItemNode {
-    private int key;
-    private int frequency;
+class ItemNode<K, V> {
 
-    public ItemNode(int key) {
+    private K key;
+    private V value;
+
+    public ItemNode(K key) {
         this.key = key;
-        frequency = 1;
+        value = (V) Integer.valueOf(1);
     }
 
-    public int getKey() {
+    public ItemNode(K key, V value) {
+        this.key = key;
+        this.value = value;
+    }
+
+    public K getKey() {
         return key;
     }
-    
-    public void increaseFrequency() {
-        frequency++;
+
+    public void setValue(V value) {
+        this.value = value;
     }
 
-    public int getFrequency() {
-        return frequency;
+    public void increaseValue() {
+        value = (V) (Integer) (((Integer) value) + 1);
+    }
+
+    public V getValue() {
+        return value;
     }
 }
 
-class LinkedList{
-    public Node head;
+class LinkedList<K, V> {
+    public Node<K, V> head;
     public int count;
 
     public LinkedList() {
@@ -30,37 +40,41 @@ class LinkedList{
     }
 }
 
+class Node<K, V> {
+    private ItemNode<K, V> item;
+    public Node<K, V> next;
 
-class Node{
-    private ItemNode item;
-    public Node next;
-
-    public Node(int key) {
+    public Node(K key) {
         item = new ItemNode(key);
         next = null;
     }
 
-    public int getKey() {
+    public Node(K key, V value) {
+        item = new ItemNode(key, value);
+        next = null;
+    }
+
+    public K getKey() {
         return item.getKey();
     }
 
-    public ItemNode getItem() {
+    public ItemNode<K, V> getItem() {
         return item;
     }
 
-    public void increaseFrequency() {
-        item.increaseFrequency();
+    public void increaseValue() {
+        item.increaseValue();
     }
 };
 
-class HashMap{
+class HashMap<K, V> {
     private int size;
-    private LinkedList array[];
+    private LinkedList<K, V> array[];
 
     public HashMap() {
         array = new LinkedList[1000];
         size = 1000;
-        for(int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++) {
             array[i] = new LinkedList();
         }
     }
@@ -68,34 +82,48 @@ class HashMap{
     public HashMap(int size) {
         this.size = size;
         array = new LinkedList[size];
-        for(int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++) {
             array[i] = new LinkedList();
         }
     }
 
-    public void insert(int key) {
-        int index = key % size;
-        Node p = search(key , index);
-        if(p == null) {
-            Node t = new Node(key);
+    public void insert(K key) {
+        int index = key.hashCode() % size;
+        Node<K, V> p = search(key, index);
+        if (p == null) {
+            Node<K, V> t = new Node(key);
             array[index].head = t;
             array[index].count++;
         } else {
-            if(p.getKey() == key) {
-                p.increaseFrequency();
-            }
-            else {
-                Node t = new Node(key);
+            if (p.getKey() == key) {
+                p.increaseValue();
+            } else {
+                Node<K, V> t = new Node(key);
                 p.next = t;
                 array[index].count++;
             }
         }
     }
 
-    private Node search(int key, int index) {
-        Node p = array[index].head;
+    public void insert(K key , V value) {
+        int index = key.hashCode() % size;
+        Node<K , V> temp = new Node(key , value);
+        Node<K , V> p = array[index].head;
         while(p != null && p.next != null) {
-            if(p.getKey() == key)
+            p = p.next;
+        }
+        if(p == null) {
+            array[index].head = temp;
+        } else {
+            p.next = temp;
+        }
+        array[index].count++;
+    }
+
+    private Node<K, V> search(K key, int index) {
+        Node<K, V> p = array[index].head;
+        while (p != null && p.next != null) {
+            if (p.getKey() == key)
                 break;
             p = p.next;
         }
@@ -104,7 +132,7 @@ class HashMap{
 
     private int getTotalNodes() {
         int count = 0;
-        for(int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++) {
             count += array[i].count;
         }
         return count;
@@ -113,10 +141,10 @@ class HashMap{
     public minHeap makeMinHeap() {
         int count = getTotalNodes();
         minHeap heap = new minHeap(count);
-        for(int i = 0; i < size; i++) {
-            Node p = array[i].head;
-            while(p != null) {
-                ItemNode item = p.getItem();
+        for (int i = 0; i < size; i++) {
+            Node<K , V> p = array[i].head;
+            while (p != null) {
+                ItemNode<Integer , Integer> item = (ItemNode<Integer , Integer>) p.getItem();
                 huffmanNode node = new huffmanNode(item);
                 heap.add(node);
                 p = p.next;
