@@ -88,7 +88,7 @@ public class HashMap<K, V> {
     }
 
     public void insert(K key) {
-        int index = key.hashCode() % size;
+        int index = Math.abs(key.hashCode() % size);
         Node<K, V> p = search(key, index);
         if (p == null) {
             Node<K, V> t = new Node(key);
@@ -106,7 +106,7 @@ public class HashMap<K, V> {
     }
 
     public void insert(K key , V value) {
-        int index = key.hashCode() % size;
+        int index = Math.abs(key.hashCode() % size);
         Node<K , V> temp = new Node(key , value);
         Node<K , V> p = array[index].head;
         while(p != null && p.next != null) {
@@ -130,7 +130,7 @@ public class HashMap<K, V> {
         return p;
     }
 
-    private int getTotalNodes() {
+    public int getTotalNodes() {
         int count = 0;
         for (int i = 0; i < size; i++) {
             count += array[i].count;
