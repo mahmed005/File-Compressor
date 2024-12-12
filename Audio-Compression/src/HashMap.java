@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 class ItemNode<K, V> {
 
     private K key;
@@ -138,6 +141,17 @@ public class HashMap<K, V> {
         return count;
     }
 
+    public V get(K key) {
+        int index = Math.abs(key.hashCode() % size);
+        Node<K , V> p = array[index].head;
+        while(p != null) {
+            if(p.getKey().equals(key))
+            return p.getItem().getValue();
+            p = p.next;
+        }
+        return null;
+    }
+
     public void display() {
         for(int i =0 ; i < size-1; i++) {
             Node<K, V> p = array[i].head;
@@ -161,5 +175,17 @@ public class HashMap<K, V> {
             }
         }
         return heap;
+    }
+
+    public Iterable<ItemNode<K , V>> getIterable() {
+        List<ItemNode<K , V>> list = new ArrayList<>();
+        for(int i = 0; i < size; i++) {
+            Node<K , V> p = array[i].head;
+            while(p != null) {
+                list.add(p.getItem());
+                p = p.next;
+            }
+        }
+        return list;
     }
 };
