@@ -1,10 +1,10 @@
 public class Encoder {
     public String encodeSamples(int[] samples , HashMap<Integer , String> encoding) {
-        String encodedData = "";
+        StringBuilder encodedData = new StringBuilder();
         for(int i = 0; i < samples.length; i++) {
             String encodedSample = encoding.get(samples[i]);
-            encodedData += encodedSample;
+            encodedData.append(encodedSample);
         }
-        return encodedData;
+        return encodedData.toString();
     }
 }

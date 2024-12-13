@@ -5,7 +5,7 @@ public class App {
     public static void main(String[] args) throws Exception {
         Sampler sampler = new Sampler();
         int[] samples = sampler.covertToSamples();
-        HashMap<Integer , Integer> map = new HashMap<Integer , Integer>(1000);
+        HashMap<Integer , Integer> map = new HashMap<Integer , Integer>(samples.length);
         for(int i = 0; i < samples.length; i++) {
             map.insert(samples[i]);
         }
@@ -28,7 +28,7 @@ public class App {
                 bytes[1] = (byte) (item.getKey() & 0xFF);
                 outFile.write(bytes);
                 StringBuilder code = new StringBuilder(item.getValue());
-                int codeSize = (int) Math.ceil(code.length() / 8);
+                int codeSize = (int) Math.ceil((double) code.length() / 8);
                 outFile.write((byte) code.length());
                 while(code.length() < codeSize * 8) {
                     code.append('0');
@@ -45,7 +45,7 @@ public class App {
             int length = encodedData.length();
             outFile.writeInt(length);
             StringBuilder data = new StringBuilder(encodedData);
-            while (data.length() < ((int) Math.ceil(length/8)) * 8) {
+            while (data.length() < (((int) Math.ceil((double) length/8)) * 8)) {
                 data.append('0');
             }
             encodedData = data.toString();
