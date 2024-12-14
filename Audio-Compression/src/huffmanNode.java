@@ -1,18 +1,19 @@
-public class huffmanNode {
+public class HuffmanNode {
         private ItemNode<Integer , Integer> item;
-        private huffmanNode left;
-        private huffmanNode right;
+        private HuffmanNode left;
+        private HuffmanNode right;
         private boolean isData;
     
-        public huffmanNode(ItemNode<Integer , Integer> item){
+        public HuffmanNode(ItemNode<Integer , Integer> item){
             this.item=item;
             left=null;
             right=null;
             isData = true;
         }
     
-        public huffmanNode(huffmanNode left, huffmanNode right) {
+        public HuffmanNode(HuffmanNode left, HuffmanNode right) {
             this.item = new ItemNode(0);
+            if(left != null && right != null)
             this.item.setValue(left.getItem().getValue() + right.getItem().getValue());
             this.left = left;
             this.right = right;
@@ -27,11 +28,19 @@ public class huffmanNode {
             return item;
         }
     
-        public huffmanNode getLeft() {
+        public HuffmanNode getLeft() {
             return left;
         }
     
-        public huffmanNode getRight() {
+        public HuffmanNode getRight() {
             return right;
+        }
+
+        public void setLeft(HuffmanNode left) {
+            this.left = left;
+        }
+
+        public void setRight(HuffmanNode right) {
+            this.right = right;
         }
 }

@@ -1,21 +1,21 @@
 public class minHeap{
     private int capacity;
     private int size;
-    private huffmanNode [] heap;
+    private HuffmanNode [] heap;
 
     public minHeap(int n){
-        heap = new huffmanNode[n];
+        heap = new HuffmanNode[n];
         capacity=n;
         size=0;
     }
 
     private void swap(int index1,int index2){
-        huffmanNode temp=heap[index1];
+        HuffmanNode temp=heap[index1];
         heap[index1]=heap[index2];
         heap[index2]=temp;
     }
 
-    public void add(huffmanNode n){
+    public void add(HuffmanNode n){
         if(size==capacity) throw new IllegalStateException("The Heap is full");
         heap[size]=n;
         size++;
@@ -30,9 +30,9 @@ public class minHeap{
         }
     }
 
-    public huffmanNode extractMin(){
+    public HuffmanNode extractMin(){
         if(size==0) throw new IllegalStateException("The Heap is empty");
-        huffmanNode min=heap[0];
+        HuffmanNode min=heap[0];
         heap[0]=heap[size-1];
         size--;
         heapifyDown();
@@ -60,7 +60,7 @@ public class minHeap{
         return size==0;
     }
 
-    private huffmanNode getMin(){
+    private HuffmanNode getMin(){
         if(size==0) throw new IllegalAccessError("The Heap is empty");
         return heap[0];
     }

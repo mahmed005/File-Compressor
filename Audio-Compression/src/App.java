@@ -5,14 +5,14 @@ public class App {
     public static void main(String[] args) throws Exception {
         Sampler sampler = new Sampler();
         int[] samples = sampler.covertToSamples();
-        HashMap<Integer , Integer> map = new HashMap<Integer , Integer>(samples.length);
+        hashMap<Integer , Integer> map = new hashMap<Integer , Integer>(samples.length);
         for(int i = 0; i < samples.length; i++) {
             map.insert(samples[i]);
         }
         minHeap queue = map.makeMinHeap();
-        huffmanTree tree = new huffmanTree();
+        HuffmanTree tree = new HuffmanTree();
         tree.buildTree(queue);
-        HashMap<Integer , String> encoding = tree.encoding();
+        hashMap<Integer ,  String> encoding = tree.encoding();
         Encoder encoder = new Encoder();
         byte[] header = sampler.getHeader();
         String encodedData = encoder.encodeSamples(samples, encoding);

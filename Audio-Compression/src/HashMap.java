@@ -70,11 +70,11 @@ class Node<K, V> {
     }
 };
 
-public class HashMap<K, V> {
+public class hashMap<K, V> {
     private int size;
     private LinkedList<K, V> array[];
 
-    public HashMap() {
+    public hashMap() {
         array = new LinkedList[1000];
         size = 1000;
         for (int i = 0; i < size; i++) {
@@ -82,7 +82,7 @@ public class HashMap<K, V> {
         }
     }
 
-    public HashMap(int size) {
+    public hashMap(int size) {
         this.size = size;
         array = new LinkedList[size];
         for (int i = 0; i < size; i++) {
@@ -169,7 +169,7 @@ public class HashMap<K, V> {
             Node<K , V> p = array[i].head;
             while (p != null) {
                 ItemNode<Integer , Integer> item = (ItemNode<Integer , Integer>) p.getItem();
-                huffmanNode node = new huffmanNode(item);
+                HuffmanNode node = new HuffmanNode(item);
                 heap.add(node);
                 p = p.next;
             }
