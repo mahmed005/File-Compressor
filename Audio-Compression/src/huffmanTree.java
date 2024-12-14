@@ -77,4 +77,20 @@ public class HuffmanTree {
             current++;
         }
     }
+
+    public String decode(String encodedData) {
+        StringBuilder decodedData = new StringBuilder();
+        HuffmanNode p = root;
+        for(int i = 0; i < encodedData.length() ; i++) {
+            if(encodedData.charAt(i) == '0') {
+                p = p.getLeft();
+            } else {
+                p = p.getRight();
+            }
+            if(p.getIsData() == true) {
+                decodedData.append(p.getItem().getKey());
+            }
+        }
+        return decodedData.toString();
+    }    
 }
