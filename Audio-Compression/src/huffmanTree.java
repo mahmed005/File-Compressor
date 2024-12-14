@@ -52,12 +52,14 @@ public class HuffmanTree {
         for (ItemNode<String, Integer> item : map.getIterable()) {
             String code = item.getKey();
             int mapping = item.getValue();
-            insertInTree(code, mapping, 0, code.length());
+            insertInTree(code, mapping);
         }
     }
 
-    private void insertInTree(String code, int mapping, int current, int end) {
+    private void insertInTree(String code, int mapping) {
         HuffmanNode p = root;
+        int current = 0;
+        int end = code.length();
         while (current < end) {
             if (code.charAt(current) == '0') {
                 if (current == end - 1) {
@@ -89,8 +91,9 @@ public class HuffmanTree {
             }
             if(p.getIsData() == true) {
                 decodedData.append(p.getItem().getKey());
+                p = root;
             }
         }
-        return decodedData.toString();
+        return decodedData.toString(); 
     }    
 }
