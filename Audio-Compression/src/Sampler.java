@@ -5,7 +5,7 @@ import javax.sound.sampled.*;
 
 public class Sampler{
     public int[] covertToSamples() throws UnsupportedAudioFileException, IOException {
-        File file = new File("example2.wav");
+        File file = new File("example4.wav");
 
         AudioInputStream audio = AudioSystem.getAudioInputStream(file);
         AudioFormat format = audio.getFormat();
@@ -41,7 +41,7 @@ public class Sampler{
     public byte[] getHeader() {
         byte[] header = new byte[44];
         try {
-            FileInputStream inputFile = new FileInputStream("example2.wav");
+            FileInputStream inputFile = new FileInputStream("example4.wav");
             inputFile.read(header);
         } catch(Exception e) {
             throw new Error("An exception occured");

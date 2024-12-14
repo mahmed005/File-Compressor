@@ -56,6 +56,7 @@ public class App {
                 bytes[i] = (byte) Integer.parseInt(encodedData.substring(start, end) , 2);
             }
             outFile.write(bytes);
+            outFile.writeInt(samples.length);
         } catch (Exception e) {
             throw new Exception("An error occured");
         }

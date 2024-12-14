@@ -62,38 +62,41 @@ public class HuffmanTree {
         int end = code.length();
         while (current < end) {
             if (code.charAt(current) == '0') {
-                if (current == end - 1) {
-                    p.setLeft(new HuffmanNode(new ItemNode<Integer, Integer>(mapping)));
-                } else {
-                    p.setLeft(new HuffmanNode(null, null));
-                    p = p.getLeft();
+                if (p.getLeft() == null) {
+                    if (current == end - 1) {
+                        p.setLeft(new HuffmanNode(new ItemNode<Integer, Integer>(mapping)));
+                    } else {
+                        p.setLeft(new HuffmanNode(null, null));
+                    }
                 }
+                p = p.getLeft();
             } else {
-                if (current == end - 1) {
-                    p.setRight(new HuffmanNode(new ItemNode<Integer, Integer>(mapping)));
-                } else {
-                    p.setRight(new HuffmanNode(null, null));
-                    p = p.getRight();
+                if (p.getRight() == null) {
+                    if (current == end - 1) {
+                        p.setRight(new HuffmanNode(new ItemNode<Integer, Integer>(mapping)));
+                    } else {
+                        p.setRight(new HuffmanNode(null, null));
+                    }
                 }
+                p = p.getRight();
             }
             current++;
         }
     }
 
-    public String decode(String encodedData) {
-        StringBuilder decodedData = new StringBuilder();
+    public void decode(String encodedData , int[] filledArray) {
+        int index = 0;
         HuffmanNode p = root;
-        for(int i = 0; i < encodedData.length() ; i++) {
-            if(encodedData.charAt(i) == '0') {
+        for (int i = 0; i < encodedData.length(); i++) {
+            if (encodedData.charAt(i) == '0') {
                 p = p.getLeft();
             } else {
                 p = p.getRight();
             }
-            if(p.getIsData() == true) {
-                decodedData.append(p.getItem().getKey());
+            if (p.getIsData() == true){
+                filledArray[index++] = p.getItem().getKey();
                 p = root;
             }
         }
-        return decodedData.toString(); 
-    }    
+    }
 }
