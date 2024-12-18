@@ -3,35 +3,36 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import javax.sound.sampled.*;
 
-public class Sampler{
+public class Sampler {
     public int[] covertToSamples() throws UnsupportedAudioFileException, IOException {
-        File file = new File("example4.wav");
-
+        File file = new File("Fanfare60.wav");
+        
         AudioInputStream audio = AudioSystem.getAudioInputStream(file);
         AudioFormat format = audio.getFormat();
         int sampleSize = format.getSampleSizeInBits() / 8;
         long totalFrames = audio.getFrameLength();
- 
+
         byte[] audioBytes = new byte[(int) totalFrames * format.getFrameSize()];
         audio.read(audioBytes);
 
         int totalChannels = format.getChannels();
-        int []samples = new int[(int) totalFrames * totalChannels];
+        int[] samples = new int[(int) totalFrames * totalChannels];
         boolean isBigEndian = format.isBigEndian();
 
         int index = 0;
-        for(int i = 0; i < audioBytes.length; i += sampleSize) {
+        for (int i = 0; i < audioBytes.length; i += sampleSize) {
             int sample = 0;
 
-            if(sampleSize == 2) {
-                if(isBigEndian)
-                sample = (audioBytes[i] << 8) | (audioBytes[i+1] & 0xFF);
-                else
-                sample = (audioBytes[i+1] << 8) | (audioBytes[i] & 0xFF); 
-            } else if(sampleSize == 1) {
+            if (sampleSize == 2) {
+                if (isBigEndian) {
+                    sample = (audioBytes[i] << 8) | (audioBytes[i + 1] & 0xFF);
+                } else {
+                    sample = (audioBytes[i + 1] << 8) | (audioBytes[i] & 0xFF);
+                }
+            } else if (sampleSize == 1) {
                 sample = audioBytes[i];
             }
-            
+
             samples[index++] = sample;
         }
 
@@ -41,11 +42,12 @@ public class Sampler{
     public byte[] getHeader() {
         byte[] header = new byte[44];
         try {
-            FileInputStream inputFile = new FileInputStream("example4.wav");
+            FileInputStream inputFile = new FileInputStream("Fanfare60.wav");
             inputFile.read(header);
-        } catch(Exception e) {
+            inputFile.close();
+        } catch (Exception e) {
             throw new Error("An exception occured");
         }
-        return header; 
+        return header;
     }
 }

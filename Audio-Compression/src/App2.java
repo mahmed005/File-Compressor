@@ -1,3 +1,4 @@
+import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -11,7 +12,7 @@ public class App2 {
 
             int numberOfCodes = readInt(file);
 
-            hashMap<String, Integer> map = new hashMap<String, Integer>(numberOfCodes / 2);
+            hashMap<String, Integer> map = new hashMap<String, Integer>(numberOfCodes);
             for (int i = 0; i < numberOfCodes; i++) {
                 int sample = (file.read() << 8) | (file.read() & 0xFF);
                 if (sample > 32767) {
@@ -34,7 +35,7 @@ public class App2 {
             byte[] encodedDataBytes = new byte[numEncodedBytes];
             file.read(encodedDataBytes);
             int totalSamples = readInt(file);
-            int[] samples = new int[totalSamples]; 
+            int[] samples = new int[totalSamples];
 
             StringBuilder encodedDataBuilder = new StringBuilder();
             for (byte b : encodedDataBytes) {
@@ -44,14 +45,20 @@ public class App2 {
             String encodedData = encodedDataBuilder.substring(0, bytes);
             HuffmanTree tree = new HuffmanTree();
             tree.buildTree(map);
-            tree.decode(encodedData , samples);
+            tree.decode(encodedData, samples);
 
             FileOutputStream outFile = new FileOutputStream("decompressed.wav");
             outFile.write(header);
 
-            for(int sample : samples) {
-                outFile.write(sample & 0xFF);
-                outFile.write((sample >> 8) & 0xFF);
+            int sampleSize = (header[35] | header[34]) / 8;
+
+            for (int sample : samples) {
+                if(sampleSize == 1) {
+                    outFile.write((byte) sample);
+                } else {
+                    outFile.write(sample & 0xFF);
+                    outFile.write(sample >> 8);
+                }
             }
 
         } catch (Exception e) {
@@ -60,7 +67,19 @@ public class App2 {
     }
 
     private static int readInt(FileInputStream file) throws IOException {
-        int result = (file.read() << 24) | (file.read() << 16) | (file.read() << 8) | (file.read());
-        return result;
+        int b1 = file.read();
+        int b2 = file.read();
+        int b3 = file.read();
+        int b4 = file.read();
+
+        if ((b1 | b2 | b3 | b4) < 0) {
+            throw new EOFException("Unexpected end of file");
+        }
+
+        return ((b1 << 24)) |
+                ((b2 & 0xFF) << 16) |
+                ((b3 & 0xFF) << 8) |
+                (b4 & 0xFF);
     }
+
 }

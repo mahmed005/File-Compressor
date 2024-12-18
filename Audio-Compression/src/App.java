@@ -38,7 +38,7 @@ public class App {
                     int start = i*8;
                     int end = start + 8;
                     String byteString = code.substring(start , end);
-                    bytes[i] = (byte) Integer.parseInt(byteString , 2);
+                    bytes[i] = (byte) (Integer.parseInt(byteString , 2));
                 }
                 outFile.write(bytes);
             }
