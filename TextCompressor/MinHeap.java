@@ -1,5 +1,5 @@
  public class MinHeap {
      public static void main(String[] args) {
-         System.out.println("Hello Gandu");
+         System.out.println("Hello");
      }
 }
