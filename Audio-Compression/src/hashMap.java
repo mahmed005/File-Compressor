@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 class ItemNode<K, V> {
 
     private K key;
@@ -67,11 +70,11 @@ class Node<K, V> {
     }
 };
 
-public class HashMap<K, V> {
+public class hashMap<K, V> {
     private int size;
     private LinkedList<K, V> array[];
 
-    public HashMap() {
+    public hashMap() {
         array = new LinkedList[1000];
         size = 1000;
         for (int i = 0; i < size; i++) {
@@ -79,7 +82,7 @@ public class HashMap<K, V> {
         }
     }
 
-    public HashMap(int size) {
+    public hashMap(int size) {
         this.size = size;
         array = new LinkedList[size];
         for (int i = 0; i < size; i++) {
@@ -88,7 +91,7 @@ public class HashMap<K, V> {
     }
 
     public void insert(K key) {
-        int index = key.hashCode() % size;
+        int index = Math.abs(key.hashCode() % size);
         Node<K, V> p = search(key, index);
         if (p == null) {
             Node<K, V> t = new Node(key);
@@ -106,7 +109,7 @@ public class HashMap<K, V> {
     }
 
     public void insert(K key , V value) {
-        int index = key.hashCode() % size;
+        int index = Math.abs(key.hashCode() % size);
         Node<K , V> temp = new Node(key , value);
         Node<K , V> p = array[index].head;
         while(p != null && p.next != null) {
@@ -130,12 +133,23 @@ public class HashMap<K, V> {
         return p;
     }
 
-    private int getTotalNodes() {
+    public int getTotalNodes() {
         int count = 0;
         for (int i = 0; i < size; i++) {
             count += array[i].count;
         }
         return count;
+    }
+
+    public V get(K key) {
+        int index = Math.abs(key.hashCode() % size);
+        Node<K , V> p = array[index].head;
+        while(p != null) {
+            if(p.getKey().equals(key))
+            return p.getItem().getValue();
+            p = p.next;
+        }
+        return null;
     }
 
     public void display() {
@@ -155,11 +169,23 @@ public class HashMap<K, V> {
             Node<K , V> p = array[i].head;
             while (p != null) {
                 ItemNode<Integer , Integer> item = (ItemNode<Integer , Integer>) p.getItem();
-                huffmanNode node = new huffmanNode(item);
+                HuffmanNode node = new HuffmanNode(item);
                 heap.add(node);
                 p = p.next;
             }
         }
         return heap;
+    }
+
+    public Iterable<ItemNode<K , V>> getIterable() {
+        List<ItemNode<K , V>> list = new ArrayList<>();
+        for(int i = 0; i < size; i++) {
+            Node<K , V> p = array[i].head;
+            while(p != null) {
+                list.add(p.getItem());
+                p = p.next;
+            }
+        }
+        return list;
     }
 };
