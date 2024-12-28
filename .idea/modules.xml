@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/FIleCompressor.iml" filepath="$PROJECT_DIR$/.idea/FIleCompressor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TextCompression/TextCompression.iml" filepath="$PROJECT_DIR$/TextCompression/TextCompression.iml" />
     </modules>
   </component>
 </project>

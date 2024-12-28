@@ -26,7 +26,7 @@ public class huffmanTree {
     public HashMap<Integer,String> encoding(){
         codes = new HashMap<Integer , String>(size/2);
         if(root.getLeft() ==null && root.getRight()==null){
-            codes.insert(root.getItem().getKey(), "0");
+            codes.insert(root.getItem().getCharacter(), "0");
             return codes;
         }
         
@@ -41,7 +41,7 @@ public class huffmanTree {
             return;
 
         if(root.getIsData()) {
-            codes.insert(root.getItem().getKey(), code);
+            codes.insert(root.getItem().getCharacter(), code);
         }
 
         traverseAndEncode(root.getLeft(), code+"0");
